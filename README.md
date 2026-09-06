@@ -11,7 +11,7 @@ Most agent failures in production happen silently or get lost in verbose runtime
 
 ```bash
 # Clone the repository
-git clone [https://github.com/georgiaeduarda/agent-failure-tracker.git](https://github.com/georgiaeduarda/agent-failure-tracker.git)
+git clone https://github.com/georgiaeduarda/agent-failure-tracker.git
 cd agent-failure-tracker
 
 # Install dependencies
@@ -22,6 +22,13 @@ python main.py
 
 # Or target a specific repository
 python main.py --repo langchain-ai/langgraph --output langgraph_failures.json
+```
+
+## Output Schema
+
+The tool generates a structured JSON output (`agent_failures.json`) highlighting actionable bugs:
+
+```json
 {
   "timestamp": "2026-09-06T03:45:00Z",
   "data": {
@@ -32,7 +39,7 @@ python main.py --repo langchain-ai/langgraph --output langgraph_failures.json
         {
           "number": 1420,
           "title": "RecursionError when tool returns empty payload in recursive graph",
-          "url": "[https://github.com/langchain-ai/langgraph/issues/1420](https://github.com/langchain-ai/langgraph/issues/1420)",
+          "url": "https://github.com/langchain-ai/langgraph/issues/1420",
           "has_stacktrace": true,
           "detected_failure_types": ["infinite loop", "traceback"]
         }
@@ -40,3 +47,10 @@ python main.py --repo langchain-ai/langgraph --output langgraph_failures.json
     }
   }
 }
+```
+
+## Architecture & Roadmap
+- [x] GitHub REST API integration with rate-limit handling
+- [x] Multi-keyword failure signature matching
+- [ ] Direct AST parsing of included stacktraces
+- [ ] Automated markdown generator for Hacker News postmortem drafts
